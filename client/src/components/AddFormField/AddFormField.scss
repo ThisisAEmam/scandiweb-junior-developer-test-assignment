@@ -1,0 +1,31 @@
+.add-form {
+  &-group {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 3fr 8fr;
+    align-items: flex-start;
+
+    label {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+  }
+
+  &-field-container {
+    width: 100%;
+  }
+
+  &-field {
+    width: 100%;
+    font-size: 1.1rem;
+    padding: 0.15rem 0.5rem;
+    border: 2px solid #000;
+    outline: none;
+    background-color: transparent;
+
+    &-errmsg {
+      margin-top: 0.5rem;
+      color: var(--alert);
+    }
+  }
+}

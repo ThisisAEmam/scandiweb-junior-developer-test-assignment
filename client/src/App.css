@@ -1,0 +1,10 @@
+.app__container {
+  width: 80%;
+  margin: 0 auto;
+  padding-top: 4rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  row-gap: 2rem;
+}
