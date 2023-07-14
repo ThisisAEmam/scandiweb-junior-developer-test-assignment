@@ -40,13 +40,13 @@ const AddProductForm: React.FC<Props> = (props: Props) => {
   });
 
   useEffect(() => {
-    if (formik.values.type && ["DVD", "Book", "Furniture"].includes(formik.values.type)) {
-      setSelectedType(formik.values.type as any);
+    if (formik.values.productType && ["DVD", "Book", "Furniture"].includes(formik.values.productType)) {
+      setSelectedType(formik.values.productType as any);
       console.log();
     } else {
       setSelectedType("Not specified");
     }
-  }, [formik.values.type]);
+  }, [formik.values.productType]);
 
   useEffect(() => {
     if (props.onAddClick && submitBtnRef.current) {
