@@ -12,4 +12,11 @@ export default defineConfig({
     setupFiles: ["./tests/setup.ts"],
     globals: true,
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "./src/assets/global.scss";`,
+      },
+    },
+  },
 });

@@ -1,61 +1,46 @@
-import { Component } from "react";
+import React, { useEffect, useState } from "react";
 import "./ProductCard.scss";
 
-type PropsType = {
-  sku: string;
-  name: string;
-  price: number;
-  size?: number;
-  weight?: number;
-  dimensions?: string;
+type Props = ProductType & {
   handleCheck: (sku: string, selected: boolean) => void;
 };
 
-type StateType = {
-  attrKey: string;
-  attrValue: string;
-};
+const ProductCard: React.FC<Props> = (props: Props) => {
+  const [attrKey, setAttrKey] = useState<string>("");
+  const [attrValue, setAttrValue] = useState<string>("");
 
-class ProductCard extends Component<PropsType, StateType> {
-  state = {
-    attrKey: "",
-    attrValue: "",
-  };
+  useEffect(() => {
+    switch (props.productType) {
+      case "Furniture":
+        setAttrKey("Dimension");
+        setAttrValue(`${props.attributes.height}x${props.attributes.width}x${props.attributes.length}`);
+        break;
+      case "DVD":
+        setAttrKey("Size");
+        setAttrValue(`${props.attributes.size} MB`);
+        break;
+      case "Book":
+        setAttrKey("Weight");
+        setAttrValue(`${props.attributes.weight}KG`);
+        break;
 
-  componentDidMount(): void {
-    if (this.props.size) {
-      this.setState({
-        attrKey: "Size",
-        attrValue: this.props.size.toString() + " MB" || "",
-      });
-    } else if (this.props.weight) {
-      this.setState({
-        attrKey: "Weight",
-        attrValue: this.props.weight.toString() + "KG" || "",
-      });
-    } else if (this.props.dimensions) {
-      this.setState({
-        attrKey: "Dimension",
-        attrValue: this.props.dimensions || "",
-      });
+      default:
+        break;
     }
-  }
-
-  handleChangeCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.handleCheck(this.props.sku, e.target.checked);
+  }, [props.productType]);
+  const handleChangeCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
+    props.handleCheck(props.sku, e.target.checked);
   };
 
-  render() {
-    return (
-      <div className="product-card">
-        <input type="checkbox" className="product-card--checkbox delete-checkbox" onChange={this.handleChangeCheckbox} />
-        <p>{this.props.sku}</p>
-        <p>{this.props.name}</p>
-        <p>{this.props.price.toFixed(2)} $</p>
-        <p>{`${this.state.attrKey}: ${this.state.attrValue}`}</p>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="product-card">
+      <input type="checkbox" className="product-card--checkbox delete-checkbox" onChange={handleChangeCheckbox} />
+      <p>{props.sku}</p>
+      <p>{props.name}</p>
+      <p>{props.price.toFixed(2)} $</p>
+      <p>{`${attrKey}: ${attrValue}`}</p>
+    </div>
+  );
+};
 
 export default ProductCard;

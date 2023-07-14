@@ -7,6 +7,8 @@ import AddFormSelect from "../../components/AddFormSelect/AddFormSelect";
 import { bookFields, commonFields, dvdFields, furnitureFields } from "./fields";
 import { formInitialValues } from "./formInitialValues";
 import { NavigateFunction } from "react-router-dom";
+import Loader from "../../hoc/Loader/Loader";
+import axios from "axios";
 
 type Props = {
   onAddClick: boolean;
@@ -15,20 +17,41 @@ type Props = {
 
 const AddProductForm: React.FC<Props> = (props: Props) => {
   const [selectedType, setSelectedType] = useState<SwitchSelectedType>("Not specified");
+  const [loader, setLoader] = useState<boolean>(false);
   const submitBtnRef = useRef<HTMLButtonElement>(null);
 
   const handleSubmit = (values: FormikValues) => {
+    setLoader(true);
     let data = {};
+    let attributes = {};
     for (const key in values) {
       const value = values[key as keyof FormikValues];
-      if (["price", "size", "height", "width", "length", "weight"].includes(key) && value !== "") {
+      if (["size", "height", "width", "length", "weight"].includes(key)) {
+        if (value !== "") {
+          attributes = { ...attributes, [key]: +value };
+        }
+      } else if (key === "price") {
         data = { ...data, [key]: +value };
       } else {
         data = { ...data, [key]: value };
       }
     }
-    console.log(data);
-    props.navigate("/");
+    data = { ...data, attributes };
+    axios
+      .post("/products/", data)
+      .then(() => {
+        formik.setValues(formInitialValues);
+        setLoader(false);
+        props.navigate("/");
+      })
+      .catch((err) => {
+        if (err.response.data.msg === "This product's sku already exists") {
+          formik.setErrors({ ...formik.errors, sku: err.response.data.msg });
+        } else {
+          console.error(err.response);
+        }
+        setLoader(false);
+      });
   };
 
   const formik: FormikProps<FormikValues> = useFormik<FormikValues>({
@@ -42,7 +65,6 @@ const AddProductForm: React.FC<Props> = (props: Props) => {
   useEffect(() => {
     if (formik.values.productType && ["DVD", "Book", "Furniture"].includes(formik.values.productType)) {
       setSelectedType(formik.values.productType as any);
-      console.log();
     } else {
       setSelectedType("Not specified");
     }
@@ -50,11 +72,13 @@ const AddProductForm: React.FC<Props> = (props: Props) => {
 
   useEffect(() => {
     if (props.onAddClick && submitBtnRef.current) {
-      console.log(submitBtnRef.current);
       submitBtnRef.current?.click();
-      console.log("Clicked!!");
     }
   }, [props.onAddClick]);
+
+  if (loader) {
+    return <Loader />;
+  }
 
   return (
     <form onSubmit={formik.handleSubmit} className="add-form" id="product_form">

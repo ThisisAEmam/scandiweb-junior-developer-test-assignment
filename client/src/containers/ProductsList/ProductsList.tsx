@@ -10,11 +10,18 @@ type Props = {
 const ProductsList: React.FC<Props> = (props: Props) => {
   return (
     <section className="products">
-      <div className="products-list">
-        {props.products.map((item: ProductType) => (
-          <ProductCard key={item.sku} sku={item.sku} name={item.name} price={item.price} dimensions={item.dimensions} size={item.size} weight={item.weight} handleCheck={props.onSelectionCheck} />
-        ))}
-      </div>
+      {props.products.length !== 0 ? (
+        <div className="products-list">
+          {props.products.map((item: ProductType) => (
+            <ProductCard key={item.sku} handleCheck={props.onSelectionCheck} {...item} />
+          ))}
+        </div>
+      ) : (
+        <div className="products-list-empty">
+          <p>No Products Available.</p>
+          <p>Please add a product first!</p>
+        </div>
+      )}
     </section>
   );
 };

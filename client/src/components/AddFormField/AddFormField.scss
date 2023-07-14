@@ -29,3 +29,21 @@
     }
   }
 }
+
+@media only screen and (max-width: $tablet) {
+  .add-form .add-form {
+    &-group {
+      display: none;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-start;
+
+      label {
+        font-weight: 600;
+        font-size: 1.1rem;
+      }
+    }
+  }
+}

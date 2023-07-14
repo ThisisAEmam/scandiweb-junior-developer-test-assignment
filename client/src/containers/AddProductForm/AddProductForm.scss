@@ -15,3 +15,16 @@
     display: none;
   }
 }
+
+@media only screen and (max-width: $tablet) {
+  .add-form {
+    width: 100%;
+  }
+}
+
+// @media only screen and (max-width: $mobile) {
+//   .app__footer {
+//     font-size: 1.2rem;
+//     height: 4rem;
+//   }
+// }
