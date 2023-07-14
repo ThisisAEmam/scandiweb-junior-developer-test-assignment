@@ -7,7 +7,7 @@ import Footer from "./components/Footer/Footer";
 import axios from "axios";
 
 const App: React.FC = () => {
-  axios.defaults.baseURL = "http://192.168.1.99:9002";
+  // axios.defaults.baseURL = "http://192.168.1.99:9002";
   useEffect(() => {
     if (import.meta.env.VITE_API_BASE_URL) {
       axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;

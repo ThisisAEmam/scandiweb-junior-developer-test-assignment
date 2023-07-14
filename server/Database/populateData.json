@@ -1,0 +1,60 @@
+[
+  {
+    "sku": "DVD-0001",
+    "name": "DVD1",
+    "price": 50,
+    "productType": "DVD",
+    "attributes": {
+      "size": 200
+    }
+  },
+  {
+    "sku": "GVB507",
+    "name": "Nature Book",
+    "price": 20.5,
+    "productType": "Book",
+    "attributes": {
+      "weight": 5
+    }
+  },
+  {
+    "sku": "CHR-904",
+    "name": "Chair",
+    "price": 40,
+    "productType": "Furniture",
+    "attributes": {
+      "height": 20,
+      "width": 67,
+      "length": 40
+    }
+  },
+  {
+    "sku": "TBL1158",
+    "name": "Pretty Table",
+    "price": 170,
+    "productType": "Furniture",
+    "attributes": {
+      "height": 55,
+      "width": 67.5,
+      "length": 37.2
+    }
+  },
+  {
+    "sku": "785-Book",
+    "name": "Flowers Book",
+    "price": 47.25,
+    "productType": "Book",
+    "attributes": {
+      "weight": 1.5
+    }
+  },
+  {
+    "sku": "DVDPURE",
+    "name": "GAMES DVD",
+    "price": 15,
+    "productType": "DVD",
+    "attributes": {
+      "size": 3750
+    }
+  }
+]
