@@ -19,26 +19,22 @@ class Controller
         $this->req_uri_parts = explode( "/", parse_url($this->req_uri, PHP_URL_PATH));
     }
 
-    public function processRequest(): void
+    public function processRequest(): string|false
     {
         if ($this->req_uri === "/") {
-            SuccessResponse::makeResponse(["msg" => "Welcome to scandiweb's Web Developer Test Assignment API."]);
-            exit();     
+            return SuccessResponse::makeResponse(["msg" => "Welcome to scandiweb's Web Developer Test Assignment API."]);
         } elseif ($this->req_uri === "/populate") {
             $err = PopulateDatabase::populate();
             if ($err) {
-                ServerErrorResponse::makeResponse(array($err));
-                exit();
+                return ServerErrorResponse::makeResponse(array($err));
             }
-            CreatedResponse::makeResponse(["msg" => "Database Populated successfully"]);
-            exit();
+            return CreatedResponse::makeResponse(["msg" => "Database Populated successfully"]);
         } elseif ($this->req_uri_parts[1] === "products") {
             $id = $this->req_uri_parts[2] ?? null;
             $productController = new ProductController();
-            $productController->processRequest($_SERVER["REQUEST_METHOD"], $id);
+            return $productController->processRequest($_SERVER["REQUEST_METHOD"], $id);
         } else {
-            NotFoundResponse::makeResponse(["msg" => "Endpoint not found"]);
-            exit();
+            return NotFoundResponse::makeResponse(["msg" => "Endpoint not found"]);
         }
     }
 }

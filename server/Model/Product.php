@@ -3,6 +3,7 @@
 namespace Model;
 
 use Database\Database;
+use Exception;
 
 class Product
 {
@@ -54,9 +55,8 @@ class Product
         return $row;
     }
 
-    public function create(array $data): mixed
+    public function create(array $data): void
     {
-        $err = null;
         try {
             $sql = "INSERT INTO PRODUCT (sku, name, price, productType) VALUES (:sku, :name, :price, :productType)";
             $stmt = $this->conn->prepare($sql);
@@ -80,36 +80,29 @@ class Product
                 $stmt->bindValue(":value", $val, \PDO::PARAM_STR);
                 $stmt->execute();
             }
-        } catch (\Exception $e) {
-            $err = $e;
-        }
-        return $err;
-    }
-
-    public function massDelete(array $data): mixed
-    {
-        $err = null;
-        try {
-            foreach($data as $sku)
+        } catch (\PDOException $e)
+        {
+            if ($e->errorInfo[1] == 1062) 
             {
-                $sql = sprintf("DELETE FROM PRODUCT WHERE sku = '%s';", $sku);
-                $stmt = $this-> conn->query($sql);
+                throw new Exception("This product's sku already exists");
+            } else {
+                throw $e;
             }
-        } catch (\Exception $e) {
-            $err = array($e);
         }
-        return $err;
     }
 
-    public function allDelete(): mixed
+    public function massDelete(array $data): void
     {
-        $err = null;
-        try {
-            $sql = "DELETE FROM PRODUCT;";
-            $stmt = $this-> conn->query($sql);
-        } catch (\Exception $e) {
-            $err = array($e);
+        foreach($data as $sku)
+        {
+            $sql = sprintf("DELETE FROM PRODUCT WHERE sku = '%s';", $sku);
+            $this-> conn->query($sql);
         }
-        return $err;
+    }
+
+    public function allDelete(): void
+    {
+        $sql = "DELETE FROM PRODUCT;";
+        $this-> conn->query($sql);
     }
 }

@@ -10,4 +10,5 @@ require_once __DIR__ . "/config/config.php";
 use Controller\Controller;
 
 $controller = new Controller();
-$controller->processRequest();
+$resp = $controller->processRequest();
+echo $resp;

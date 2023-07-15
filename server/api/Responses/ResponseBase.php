@@ -7,8 +7,8 @@ abstract class ResponseBase
     public static int $responseCode;
     public static array $body;
 
-    public static function makeResponse(?array $respBody = null) {
+    public static function makeResponse(?array $respBody = null): string|false {
         http_response_code(static::$responseCode);
-        echo json_encode($respBody ?? static::$body);
+        return json_encode($respBody ?? static::$body);
     }
 }

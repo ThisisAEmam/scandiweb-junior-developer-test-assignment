@@ -98,7 +98,7 @@ const AddProductForm: React.FC<Props> = (props: Props) => {
           {furnitureFields.map((item: AddProductField, index: number) => (
             <AddFormField formik={formik} key={index} field={item} />
           ))}
-          <p className="add-form-attrDesc">* Please provide dimensions in HxWxL format.</p>
+          <p className="add-form-attrDesc">* Please provide dimensions in CM.</p>
         </>
       ) : selectedType === "Book" ? (
         <>
